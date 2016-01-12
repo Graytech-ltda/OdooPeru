@@ -11,7 +11,7 @@
                     <field name="is_instructor"/>
                 </field>
                 <xpath expr="//notebook" position="inside">
-                	<page string="Sessions">
+                	<page string="Sessions" attrs="{'invisible':[('is_instructor','=',False)]}">
                 		<field name="session_ids"/>
                 	</page>
                 </xpath>
