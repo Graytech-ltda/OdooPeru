@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Licence AGPL
 
-from openerp import models, fields
+from openerp import models, fields, api, exceptions
 
 #curso tecnico
 class openacademy_course(models.Model):
@@ -12,17 +12,53 @@ class openacademy_course(models.Model):
     session_ids = fields.One2many('openacademy.session', 'course_id', string="Sessions")
     responsible_id = fields.Many2one('res.users',string='Responsible')
     
+    #constraint a nivel de sql
+    _sql_constraints = [('check_name','check(name<>description)','The name must be different of description'),
+                        ('check_name','unique(name)','The name must be unique')]
+    
+    @api.one
+    def copy(self, defaults):
+        defaults['name']= self.name + ' (copy)'
+        return super(openacademy_course, self).copy(defaults)
+    
+    
 #lima
 class openacademy_session(models.Model):
     _name       = "openacademy.session"
     
-    name        = fields.Char('Name',size=32,required=True)
-    start_date  = fields.Date('Date Start')
-    seats       = fields.Integer('Seats')
-    duration    = fields.Float('Duration')
-    course_id   = fields.Many2one('openacademy.course',string='Course')
-    attendee_ids = fields.One2many('openacademy.attendee', 'session_id', string="Attendees")
-    instructor_id = fields.Many2one('res.partner',string='Instructor')
+    @api.one #or multi
+    @api.depends('attendee_ids','seats') #calcula la fnc cuando cambian los argumentos
+    def _remaining_seats(self):
+        #porcentaje de sillas restantes
+        self.remaining_seats = (1.0 - (self.seats and float(len(self.attendee_ids))/self.seats or 0.0))*100
+    
+    @api.one #or multi
+    @api.constrains('seats') #calcula la fnc cuando cambian los argumentos
+    def _check_seats(self):
+        if self.seats <= 0:
+            raise exceptions.ValidationError("The seats doesn't be negative number")
+    
+    @api.onchange('seats')#1 guion bajo no se puede acceder via webservice, 0 guion bajo es publica, 2 guion bajo en python no se puede acceder desde otras clases 
+    def onchange_seats(self):
+        if self.seats <= 0:
+            return {'warning':{'title':'Warning!','message':"Seats doesn't be negative number"}}
+    
+    @api.one #or multi
+    @api.constrains('instructor_id','attendee_ids') #calcula la fnc cuando cambian los argumentos
+    def _check_instructor(self):
+        if self.instructor_id.id in [ a.partner_id.id for a in self.attendee_ids ]:
+            raise exceptions.ValidationError("The instructor must not be into the attendees")
+    
+    
+    name            = fields.Char('Name',size=32, required=True)#fields.Relate('attendee_ids.')
+    start_date      = fields.Date('Date Start', default = fields.Date.today)
+    seats           = fields.Integer('Seats', default =1)
+    duration        = fields.Float('Duration')
+    course_id       = fields.Many2one('openacademy.course',string='Course')
+    attendee_ids    = fields.One2many('openacademy.attendee', 'session_id', string="Attendees")
+    instructor_id   = fields.Many2one('res.partner',string='Instructor',domain=['|',('is_instructor','=',True),('category_id.name','in',['Nivel 1','Nivel 2'])])
+    remaining_seats = fields.Float('Remaining seats', compute=_remaining_seats)
+    active          = fields.Boolean('Active',default=True)
 
 #cada voucher
 class openacademy_attendee(models.Model):
