@@ -9,7 +9,8 @@
     'website': 'https://www.odoo.com',
     'depends' : ['base'],
     'data': [
-             'openacademy.xml',
+             'openacademy.xml', 
+             'partner_view.xml',
     ],
     'qweb' : [
     ],

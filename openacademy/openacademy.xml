@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-		<menuitem name="OpenAcademy" id="openacademy_main_menu"/>
+		<menuitem name="OpenAcademy" id="openacademy_main_menu" sequence="200"/>
     	<menuitem name="OpenAcademy" parent="openacademy_main_menu" id="openacademy_menu"/>
     	
     	<!-- Courses views -->
