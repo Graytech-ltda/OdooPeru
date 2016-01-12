@@ -1,7 +1,7 @@
 {
 'name':"OpenAcademy",
-    'version' : '1.0',
-    'author' : 'JUAN SEPULVEDA',
+    'version' : '2.0',
+    'author' : 'Juan Sepulveda & William Genoy',
     'category' : 'Training',
     'description' : """
         MANAGEMENT COURSE, SESSION AND ATTENDEE
