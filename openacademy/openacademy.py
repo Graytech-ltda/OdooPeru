@@ -2,6 +2,8 @@
 # Licence AGPL
 
 from openerp import models, fields, api, exceptions
+from datetime import timedelta
+from datetime import datetime
 
 #curso tecnico
 class openacademy_course(models.Model):
@@ -49,9 +51,18 @@ class openacademy_session(models.Model):
         if self.instructor_id.id in [ a.partner_id.id for a in self.attendee_ids ]:
             raise exceptions.ValidationError("The instructor must not be into the attendees")
     
+    @api.one
+    @api.depends('start_date','duration') #calcula la fnc cuando cambian los argumentos
+    def _date_end(self):
+        self.date_end = (datetime.strptime(self.start_date,"%Y-%m-%d") + timedelta(days=self.duration)).strftime("%Y-%m-%d")
+    
+    @api.one
+    def _date_end_inv(self):
+        self.duration = (datetime.strptime(self.date_end,"%Y-%m-%d")-datetime.strptime(self.start_date,"%Y-%m-%d")).days
+    
     
     name            = fields.Char('Name',size=32, required=True)#fields.Relate('attendee_ids.')
-    start_date      = fields.Date('Date Start', default = fields.Date.today)
+    start_date      = fields.Date('Start Date', default = fields.Date.today)
     seats           = fields.Integer('Seats', default =1)
     duration        = fields.Float('Duration')
     course_id       = fields.Many2one('openacademy.course',string='Course')
@@ -59,6 +70,7 @@ class openacademy_session(models.Model):
     instructor_id   = fields.Many2one('res.partner',string='Instructor',domain=['|',('is_instructor','=',True),('category_id.name','in',['Nivel 1','Nivel 2'])])
     remaining_seats = fields.Float('Remaining seats', compute=_remaining_seats)
     active          = fields.Boolean('Active',default=True)
+    date_end        = fields.Date('End Date', compute=_date_end, inverse=_date_end_inv )
 
 #cada voucher
 class openacademy_attendee(models.Model):

@@ -53,14 +53,40 @@
             <field name="name">openacademy.session.tree</field>
             <field name="model">openacademy.session</field>
             <field name="arch" type="xml">
-                <tree string="Sessions">
+                <tree string="Sessions" colors="blue:duration&lt;5;red:duration>15"><!--xml procesa solo los simbolos mayor que mas no el < : &lt-->
                     <field name="name"/>
                     <field name="instructor_id"/>
                     <field name="start_date"/>
+                    <field name="date_end"/>
                     <field name="seats"/>
                     <field name="remaining_seats" widget="progressbar"/>
                     <field name="duration"/>
                 </tree>
+            </field>
+        </record>
+    	
+    	<!-- calendar view -->
+    	<record model="ir.ui.view" id="view_session_calendar">
+            <field name="name">openacademy.session.calendar</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <calendar string="Sessions" color="instructor_id" date_start="start_date" date_stop="date_end"><!-- cada instructor con un color diferente-->
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+        
+    	<!-- gantt view -->
+    	<record model="ir.ui.view" id="view_session_gantt">
+            <field name="name">openacademy.session.gantt</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <gantt string="Sessions" default_group_by="course_id" 
+                	date_start="start_date" date_stop="date_end">
+                	<level object="res.partner" link="instructor_id">
+                    	<field name="name"/>
+                    </level>
+                </gantt>
             </field>
         </record>
     	
@@ -74,6 +100,7 @@
 	                    	<field name="name"/>
 	                    	<field name="instructor_id"/>
 	                    	<field name="start_date"/>
+	                    	<field name="date_end"/>
 	                    	<field name="active"/>
 	                    </group>
 	                    <group>
@@ -99,7 +126,7 @@
             <field name="res_model">openacademy.session</field>
             <field name="view_type">form</field>
             <field name="name">Sessions</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar,gantt</field>
         </record>
 
     	<menuitem name="Sessions" parent="openacademy_menu" id="session_menu" action="session_action"/>
