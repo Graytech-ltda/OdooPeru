@@ -9,12 +9,14 @@ from datetime import datetime
 class openacademy_course(models.Model):
     _name       ="openacademy.course"
     
+    #Fields declaration
     name        =fields.Char('Name',size=32,required=True)
     description =fields.Text('Description')
     session_ids = fields.One2many('openacademy.session', 'course_id', string="Sessions")
     responsible_id = fields.Many2one('res.users',string='Responsible')
     
-    #constraint a nivel de sql
+    
+    #Constraint a nivel de sql
     _sql_constraints = [('check_name','check(name<>description)','The name must be different of description'),
                         ('check_name','unique(name)','The name must be unique')]
     
@@ -28,6 +30,7 @@ class openacademy_course(models.Model):
 class openacademy_session(models.Model):
     _name       = "openacademy.session"
     
+    #Functions declaration
     @api.one #or multi
     @api.depends('attendee_ids','seats') #calcula la fnc cuando cambian los argumentos
     def _remaining_seats(self):
@@ -60,22 +63,29 @@ class openacademy_session(models.Model):
     def _date_end_inv(self):
         self.duration = (datetime.strptime(self.date_end,"%Y-%m-%d")-datetime.strptime(self.start_date,"%Y-%m-%d")).days
     
-    
+    @api.one
+    @api.depends('attendee_ids','attendee_ids.session_id')
+    def _attendee_count(self):
+        self.attendee_count= len(self.attendee_ids)
+        
+    #Fields declaration
     name            = fields.Char('Name',size=32, required=True)#fields.Relate('attendee_ids.')
     start_date      = fields.Date('Start Date', default = fields.Date.today)
-    seats           = fields.Integer('Seats', default =1)
+    seats           = fields.Integer('Seats', default=1)
     duration        = fields.Float('Duration')
     course_id       = fields.Many2one('openacademy.course',string='Course')
     attendee_ids    = fields.One2many('openacademy.attendee', 'session_id', string="Attendees")
     instructor_id   = fields.Many2one('res.partner',string='Instructor',domain=['|',('is_instructor','=',True),('category_id.name','in',['Nivel 1','Nivel 2'])])
     remaining_seats = fields.Float('Remaining seats', compute=_remaining_seats)
     active          = fields.Boolean('Active',default=True)
-    date_end        = fields.Date('End Date', compute=_date_end, inverse=_date_end_inv )
-
+    date_end        = fields.Date('End Date', compute=_date_end, inverse=_date_end_inv)
+    attendee_count  = fields.Integer('Attendee Count', compute=_attendee_count, store=True)
+    
 #cada voucher
 class openacademy_attendee(models.Model):
     _name       = "openacademy.attendee"
     
+    #Fields declaration
     name        = fields.Char('Name',size=32)
     session_id  = fields.Many2one('openacademy.session',string='session')
     partner_id  = fields.Many2one('res.partner',string='Partner')

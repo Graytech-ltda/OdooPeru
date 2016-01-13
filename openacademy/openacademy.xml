@@ -15,6 +15,21 @@
                 </tree>
             </field>
         </record>
+        
+        <!-- courses search view -->
+        <record model="ir.ui.view" id="view_course_search">
+            <field name="name">openacademy.course.search</field>
+            <field name="model">openacademy.course</field>
+            <field name="arch" type="xml">
+                <search string="Courses">
+                    <field name="name"/>
+                    <field name="description"/>
+                    
+                    <separator string="Filters"/>                    
+                    <filter name="my_course" string="My Course" domain="[('responsible_id','=',uid)]"/><!--uid es el id del usuario conectado actualmente-->               	
+                </search>
+            </field>
+        </record>
     	
     	<record model="ir.ui.view" id="view_course_form">
             <field name="name">openacademy.course.form</field>
@@ -44,6 +59,7 @@
             <field name="view_type">form</field>
             <field name="name">Courses</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_my_course':1}</field><!--variable que comunica msjs entre objetos-->
         </record>
 
     	<menuitem name="Courses" parent="openacademy_menu" id="course_menu" action="course_action"/>
@@ -89,6 +105,34 @@
                 </gantt>
             </field>
         </record>
+        
+        <!-- sessions search view -->
+        <record model="ir.ui.view" id="view_session_search">
+            <field name="name">openacademy.session.search</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <search string="Sessions">
+                    <field name="name"/>
+                    <field name="instructor_id"/>
+                    <group string="Group By">                    
+                    	<filter name="group_instructor" string="Instructor" context="{'group_by':'instructor_id'}"/>
+                    	<filter name="group_course" string="Course" context="{'group_by':'course_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- session graph view -->
+    	<record model="ir.ui.view" id="view_session_graph">
+            <field name="name">openacademy.session.graph</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <graph string="Session Graph" type="bar">
+                	<field name="course_id"/>
+                	<field name="attendee_count" operator='+'/>
+                </graph>
+            </field>
+        </record>
     	
     	<record model="ir.ui.view" id="view_session_form">
             <field name="name">openacademy.session.form</field>
@@ -126,7 +170,9 @@
             <field name="res_model">openacademy.session</field>
             <field name="view_type">form</field>
             <field name="name">Sessions</field>
-            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_mode">tree,form,calendar,gantt,graph</field>
+            
+            <field name="context">{'default_duration':5}</field>
         </record>
 
     	<menuitem name="Sessions" parent="openacademy_menu" id="session_menu" action="session_action"/>
