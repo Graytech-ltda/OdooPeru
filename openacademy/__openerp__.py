@@ -11,7 +11,7 @@
     'data': [
              'openacademy.xml', 
              'partner_view.xml',
-             'report/openacademy_report.xml',
+             'report/openacademy_report_view.xml',
     ],
     'qweb' : [
     ],

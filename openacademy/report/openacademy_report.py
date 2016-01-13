@@ -34,7 +34,7 @@ class report_openacademy(models.Model):
                 s.start_date AS start_date,
                 s.seats AS seats,
                 s.duration AS duration,
-                a.partner_id AS partner_id
+                a.partner_id AS partner_id,
                 a.id AS attendee_id
             FROM
                 openacademy_session s

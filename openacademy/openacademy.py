@@ -81,6 +81,7 @@ class openacademy_session(models.Model):
     date_end        = fields.Date('End Date', compute=_date_end, inverse=_date_end_inv)
     attendee_count  = fields.Integer('Attendee Count', compute=_attendee_count, store=True)
     
+    
 #cada voucher
 class openacademy_attendee(models.Model):
     _name       = "openacademy.attendee"
