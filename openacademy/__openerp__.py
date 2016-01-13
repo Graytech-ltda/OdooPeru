@@ -1,13 +1,13 @@
 {
 'name':"OpenAcademy",
-    'version' : '2.0',
+    'version' : '3.0',
     'author' : 'Juan Sepulveda & William Genoy',
     'category' : 'Training',
     'description' : """
         MANAGEMENT COURSE, SESSION AND ATTENDEE
     """,
     'website': 'https://www.odoo.com',
-    'depends' : ['base'],
+    'depends' : ['base','mail'],
     'data': [
              'openacademy.xml', 
              'partner_view.xml',

@@ -29,8 +29,9 @@ class openacademy_course(models.Model):
 #lima
 class openacademy_session(models.Model):
     _name       = "openacademy.session"
+    _inherit    = ['mail.thread', 'ir.needaction_mixin']
     
-    #Functions declaration
+    #Private Functions (framework _fcn) declaration 
     @api.one #or multi
     @api.depends('attendee_ids','seats') #calcula la fnc cuando cambian los argumentos
     def _remaining_seats(self):
@@ -77,11 +78,29 @@ class openacademy_session(models.Model):
     attendee_ids    = fields.One2many('openacademy.attendee', 'session_id', string="Attendees")
     instructor_id   = fields.Many2one('res.partner',string='Instructor',domain=['|',('is_instructor','=',True),('category_id.name','in',['Nivel 1','Nivel 2'])])
     remaining_seats = fields.Float('Remaining seats', compute=_remaining_seats)
-    active          = fields.Boolean('Active',default=True)
+    active          = fields.Boolean('Active', default=True)
     date_end        = fields.Date('End Date', compute=_date_end, inverse=_date_end_inv)
     attendee_count  = fields.Integer('Attendee Count', compute=_attendee_count, store=True)
+    color           = fields.Integer('Color')
+    state           = fields.Selection([('draft','Draft'),
+                                        ('confirm','Confirm'),
+                                        ('done','Done')], string="State", readonly=True, default='draft')
     
-    
+    #Public Functions (framework fcn) declaration
+    @api.multi  #se obtienen varios registros
+    def action_draft(self):
+        for session in self:
+            session.state = 'draft'
+        
+    @api.multi  #se obtienen varios registros
+    def action_confirm(self):
+        for session in self:
+            session.state = 'confirm'
+            
+    @api.multi  #se obtienen varios registros
+    def action_done(self):
+        for session in self:
+            session.state = 'done'
 #cada voucher
 class openacademy_attendee(models.Model):
     _name       = "openacademy.attendee"

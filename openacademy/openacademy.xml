@@ -139,7 +139,7 @@
 			<field name="name">openacad.session.kanban</field>
 			<field name="model">openacademy.session</field>
 			<field name="arch" type="xml">
-				<kanban default_group_by="course_id">
+				<kanban default_group_by="state">
 					<field name="color"/>
 					<templates>
 						<t t-name="kanban-box">
@@ -177,38 +177,53 @@
             <field name="model">openacademy.session</field>
             <field name="arch" type="xml">
                 <form string="Sessions">
-                    <group>
-                    	<group>
-	                    	<field name="name"/>
-	                    	<field name="instructor_id"/>
-	                    	<field name="start_date"/>
-	                    	<field name="date_end"/>
-	                    	<field name="active"/>
+                	<header>
+                		<!--4 tipos de botones: accionar transiciones - workflows, tipo object: invocan funcion con el nombre del boton, tipo action: llaman a una accion, tipo espetial, eg. cerrar ventana-->
+                		<button name="action_draft" type="object" string="Draft" states="confirm,done"/> 
+                		<button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+                		<button name="action_done" type="object" string="Done" states="confirm" class="oe_highlight"/>
+                		<field name="state" widget="statusbar"/>
+                	</header>
+                    <sheet>
+						<group>
+	                    	<group>
+		                    	<field name="name"/>
+		                    	<field name="instructor_id"/>
+		                    	<field name="start_date"/>
+		                    	<field name="date_end"/>
+		                    	<field name="active"/>
+		                    </group>
+		                    <group>
+		                    	<field name="seats"/>
+		                    	<field name="remaining_seats" widget="progressbar"/>
+		                    	<field name="duration"/>
+			                    <field name="course_id"/>
+		                    </group>
 	                    </group>
-	                    <group>
-	                    	<field name="seats"/>
-	                    	<field name="remaining_seats" widget="progressbar"/>
-	                    	<field name="duration"/>
-		                    <field name="course_id"/>
-	                    </group>
-                    </group>
-                    
-                    <separator string="Attendees"/>
-                    <field name="attendee_ids">
-                    	<tree editable="bottom">
-                    		<field name="name"/>
-                    		<field name="partner_id"/>
-                    	</tree>
-            		</field>
+	                    
+	                    <separator string="Attendees"/>
+	                    <field name="attendee_ids">
+	                    	<tree editable="bottom">
+	                    		<field name="name"/>
+	                    		<field name="partner_id"/>
+	                    	</tree>
+	            		</field>	                		
+            		</sheet>
+            		
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
                 </form>
             </field>
         </record>
-    	
+        
+    	<!-- Session Action view -->
     	<record id="session_action" model="ir.actions.act_window">
             <field name="res_model">openacademy.session</field>
             <field name="view_type">form</field>
             <field name="name">Sessions</field>
-            <field name="view_mode">tree,form,calendar,gantt,graph</field>
+            <field name="view_mode">tree,form,calendar,gantt,graph,kanban</field>
             
             <field name="context">{'default_duration':5}</field>
         </record>
