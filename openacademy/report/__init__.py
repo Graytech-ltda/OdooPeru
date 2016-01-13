@@ -19,6 +19,4 @@
 #
 ##############################################################################
 
-import openacademy
-import partner
-import report
+import openacademy_report

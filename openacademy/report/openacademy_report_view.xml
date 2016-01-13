@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model ="ir.ui.view" id="report_openacademy_graph">
+            <field name="name">report.openacademy.graph</field>
+            <field name="model">report.openacademy</field>
+            <field name="arch" type="xml">
+                <graph string="Open Academy Report"  type="pivot" >
+                    <field name="course_id" type="row"/>
+                    <field name="start_date" interval="month" type="col"/>
+                    <field name="seats" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_report_openacademy">
+            <field name="name">OpenAcademy Analysis</field>
+            <field name="res_model">report.openacademy</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+        </record>
+
+        <menuitem parent="base.menu_reporting" id="menu_reporting_openacademy" sequence="30" name="OpenAcademy"/>
+        <menuitem parent="menu_reporting_openacademy" id="menu_reporting_openacademy_analysis" 
+        	sequence="30" name="Analysis OpenAcademy" action="action_report_openacademy"/>
+
+    </data>
+</openerp>
