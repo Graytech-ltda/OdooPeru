@@ -14,6 +14,7 @@
              'report/openacademy_report_view.xml',
              'openacademy_workflow.xml',
              'security/groups.xml',
+             'security/ir.model.access.csv',
     ],
     'qweb' : [
     ],

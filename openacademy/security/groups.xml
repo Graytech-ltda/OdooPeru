@@ -14,8 +14,19 @@
 			<field name="name">Manager</field>
 			<field name="category_id" ref="app_openacademy"></field>
 			<field name="implied_ids" eval="[(4,ref('group_user'))]">
-				
 			</field>
 		</record>
+
+    	<record id="openacademy_rules_responsible" model="ir.rule">
+        	<field name="name">Rule Responsible</field>
+        	<field ref="model_openacademy_course" name="model_id"/>
+        	<field name="domain_force">['|',('responsible_id','=',user.id),('responsible_id','=',False)]</field>
+        	<field name="groups" eval="[(4, ref('group_manager'))]"/>
+        	<field name="perm_write" eval="1"/>
+        	<field name="perm_unlink" eval="1"/>
+        	<field name="perm_read" eval="0"/>
+        	<field name="perm_create" eval="0"/>
+    	</record>
+
 	</data>
 </openerp>
