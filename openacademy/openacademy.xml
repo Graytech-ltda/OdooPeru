@@ -114,6 +114,9 @@
                 <search string="Sessions">
                     <field name="name"/>
                     <field name="instructor_id"/>
+                    
+                    <filter name="group_one" string="One" domain="[('name','ilike','%1')]"/>
+                    <filter name="group_two" string="Two" domain="[('name','ilike','%2')]"/>
                     <group string="Group By">                    
                     	<filter name="group_instructor" string="Instructor" context="{'group_by':'instructor_id'}"/>
                     	<filter name="group_course" string="Course" context="{'group_by':'course_id'}"/>
@@ -183,6 +186,10 @@
                 		<button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
                 		<button name="action_done" type="object" string="Done" states="confirm" class="oe_highlight"/>
                 		<field name="state" widget="statusbar"/>
+                		
+                		<button name="wkf_draft" type="workflow" string="wDraft"/> 
+                		<button name="wkf_confirm" type="workflow" string="wConfirm" class="oe_highlight"/>
+                		<button name="wkf_done" string="wDone" class="oe_highlight"/>
                 	</header>
                     <sheet>
 						<group>

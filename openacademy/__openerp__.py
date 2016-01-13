@@ -12,6 +12,7 @@
              'openacademy.xml', 
              'partner_view.xml',
              'report/openacademy_report_view.xml',
+             'openacademy_workflow.xml',
     ],
     'qweb' : [
     ],
