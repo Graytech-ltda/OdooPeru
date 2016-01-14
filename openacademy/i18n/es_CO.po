@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-14 19:52+0000\n"
-"PO-Revision-Date: 2016-01-14 12:15-0800\n"
+"PO-Revision-Date: 2016-01-14 12:23-0800\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -287,7 +287,7 @@ msgstr "Empresa"
 #: field:openacademy.course,responsible_id:0
 #: field:report.openacademy,responsible_id:0
 msgid "Responsible"
-msgstr "Responsible"
+msgstr "Responsable"
 
 #. module: openacademy
 #: field:openacademy.session,seats:0 field:report.openacademy,seats:0
