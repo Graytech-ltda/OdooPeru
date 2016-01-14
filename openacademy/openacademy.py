@@ -77,7 +77,7 @@ class openacademy_session(models.Model):
     course_id       = fields.Many2one('openacademy.course',string='Course')
     attendee_ids    = fields.One2many('openacademy.attendee', 'session_id', string="Attendees")
     instructor_id   = fields.Many2one('res.partner',string='Instructor',domain=['|',('is_instructor','=',True),('category_id.name','in',['Nivel 1','Nivel 2'])])
-    remaining_seats = fields.Float('Remaining seats', compute=_remaining_seats)
+    remaining_seats = fields.Float('Remaining seats', compute=_remaining_seats, groups='openacademy.group_manager')
     active          = fields.Boolean('Active', default=True)
     date_end        = fields.Date('End Date', compute=_date_end, inverse=_date_end_inv)
     attendee_count  = fields.Integer('Attendee Count', compute=_attendee_count, store=True)
