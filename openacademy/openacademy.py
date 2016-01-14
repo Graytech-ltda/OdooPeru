@@ -10,8 +10,8 @@ class openacademy_course(models.Model):
     _name       ="openacademy.course"
     
     #Fields declaration
-    name        =fields.Char('Name',size=32,required=True)
-    description =fields.Text('Description')
+    name        = fields.Char('Name',size=32,required=True)
+    description = fields.Text('Description')
     session_ids = fields.One2many('openacademy.session', 'course_id', string="Sessions")
     responsible_id = fields.Many2one('res.users',string='Responsible')
     
@@ -107,7 +107,7 @@ class openacademy_attendee(models.Model):
     
     #Fields declaration
     name        = fields.Char('Name',size=32)
-    session_id  = fields.Many2one('openacademy.session',string='session')
-    partner_id  = fields.Many2one('res.partner',string='Partner')
+    session_id  = fields.Many2one('openacademy.session', string='session')
+    partner_id  = fields.Many2one('res.partner', string='Partner')
 
     

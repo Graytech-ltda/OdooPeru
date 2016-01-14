@@ -15,6 +15,7 @@
              'openacademy_workflow.xml',
              'security/groups.xml',
              'security/ir.model.access.csv',
+             'wizard/enroll_view.xml',
     ],
     'qweb' : [
     ],
