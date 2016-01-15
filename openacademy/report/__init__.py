@@ -20,3 +20,4 @@
 ##############################################################################
 
 import openacademy_report
+import report_session
