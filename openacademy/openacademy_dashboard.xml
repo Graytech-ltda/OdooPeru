@@ -2,21 +2,25 @@
 <openerp>
 	<data>
 		<record model="ir.actions.act_window" id="act_session_graph">
-			<field name="res_model">openacademy.course</field>
+			<field name="name">Session Graph</field>
+			<field name="res_model">openacademy.session</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">graph</field>
-			<field name="view_id" ref="openacademy.openacademy_course_graph"/>
+			<field name="view_id" ref="openacademy.view_session_graph"/>
 		</record>
 		<record model="ir.actions.act_window" id="act_session_calendar">
+			<field name="name">Session Calendar</field>
 			<field name="res_model">openacademy.session</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">calendar</field>
-			<field name="view_id" ref="openacademy.openacademy_session_calendar"/>
+			<field name="view_id" ref="openacademy.view_session_calendar"/>
 		</record>
 		<record model="ir.actions.act_window" id="act_course_list">
+			<field name="name">Course List</field>
 			<field name="res_model">openacademy.course</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			<!-- cuando no se especifica el framework toma la primera vista tree, form que encuentre-->
 		</record>
 		<record model="ir.ui.view" id="board_session_form">
 			<field name="name">Session Dashboard Form</field>
@@ -55,10 +59,10 @@
 			<field name="usage">menu</field>
 			<field name="view_id" ref="board_session_form"/>
 		</record>
-		<menuitem id="openacademy_menu" name="OpenAcademy" action="open_board_session" parent="openacademy_root"/>
-		<menuitem id="board.menu_dashboard" name="Dashboard" sequence="0" parent="openacademy_root"/>
+		<menuitem id="openacademy_main_menu" name="OpenAcademy" action="open_board_session"/>
+		<menuitem id="menu_dashboard" name="Dashboard" sequence="100" parent="openacademy_main_menu"/>
 		<menuitem
-			name="Session Dashboard" parent="board.menu_dashboard"
+			name="Session Dashboard" parent="menu_dashboard"
 			action="open_board_session"
 			sequence="1"
 			id="menu_board_session" icon="terp-graph"
