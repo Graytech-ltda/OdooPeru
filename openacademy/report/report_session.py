@@ -12,8 +12,13 @@ class SessionReport_print(report_sxw.rml_parse):
         super(SessionReport_print, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
+            'get_product': self._get_product
         })
 
+    def _get_product(self,code):
+        self.cr.execute("SELECT t.name FROM product_product p join product_template t on (p.product_tmpl_id=t.id) where p.default_code = %s",(code,))
+        res = self.cr.fetchall()
+        return res and res[0][0] or ''
 
 
 class SessionReport(models.AbstractModel):
