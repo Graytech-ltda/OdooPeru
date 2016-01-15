@@ -18,6 +18,7 @@
              'wizard/enroll_view.xml',
              'report/report_session.xml',
              'report/report_session_excel.xml',
+             'openacademy_dashboard.xml',
     ],
     'qweb' : [
     ],
