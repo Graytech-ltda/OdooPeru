@@ -25,8 +25,8 @@
 		                    	<tr>
 		                    		<td>Remaining seats:</td>
 		                    		<td><span t-field="o.remaining_seats"/></td>
-		                    		<td>Seats:</td>
-		                    		<td><span t-field="o.seats"/></td>
+		                    		<td>Product:</td>
+		                    		<td><span t-esc="get_product('r123')"/></td>
 		                    	</tr>
 		                    </table>
                             <h3>Attendees</h3>
