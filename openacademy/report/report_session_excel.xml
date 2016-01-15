@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.actions.report.xml" id="session_excel_report">
+            <field name="name">Session in Excel</field>
+            <field name="report_name">report.openacademy.session.excel</field>
+            <field name="model">openacademy.session</field>
+            <field name="report_type">cubicReport.xlsx</field>
+            <field name="report_file">openacademy/report/report_session_excel.xlsx</field>
+            <field name="menu_show">1</field>
+        </record>
+
+    </data>
+</openerp>
