@@ -16,6 +16,7 @@
              'security/groups.xml',
              'security/ir.model.access.csv',
              'wizard/enroll_view.xml',
+             'report/report_session.xml',
     ],
     'qweb' : [
     ],
