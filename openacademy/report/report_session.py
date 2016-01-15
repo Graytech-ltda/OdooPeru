@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, api
+import time
+from openerp.report import report_sxw
 
 class SessionReport_print(report_sxw.rml_parse):
 
