@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+		<template id="report_session_document1">
+		    <t t-call="report.html_container">
+		        <t t-foreach="docs" t-as="o">
+		            <t t-call="report.external_layout">
+		                <div class="page">
+		                    <h2>Report Session</h2>
+		                    
+		                    <table width="100%">
+		                    	<tr>
+		                    		<td>Name:</td>
+		                    		<td><span t-field="o.name"/></td>		                    	
+		                    		<td>Instructor:</td>
+		                    		<td><span t-field="o.instructor_id.name"/></td>
+		                    	</tr>
+		                    	<tr>
+		                    		<td>Duration:</td>
+		                    		<td><span t-field="o.duration"/></td>
+		                    		<td>Date Start:</td>
+		                    		<td><span t-field="o.start_date"/></td>
+		                    	</tr>
+		                    	<tr>
+		                    		<td>Remaining seats:</td>
+		                    		<td><span t-field="o.remaining_seats"/></td>
+		                    		<td>Seats:</td>
+		                    		<td><span t-field="o.seats"/></td>
+		                    	</tr>
+		                    </table>
+                            <h3>Attendees</h3>
+                            <table width="100%">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Partner</th>
+                                    <th>Sign</th>
+                                </thead>
+    	                    	<tbody t-foreach="o.attendee_ids" t-as="a">
+    	                    		<tr>
+			                    		<td><span t-field="a.name"/></td>
+			                    		<td><span t-field="a.partner_id.name"/></td>
+	                                    <td>___________</td>
+                                    </tr>
+		                    	</tbody>
+                            </table>
+		                </div>
+		            </t>
+		        </t>
+		    </t>
+		</template>
+		
+		<report 
+            id="report_session_print"
+            string="Session"
+            model="openacademy.session" 
+            report_type="qweb-pdf"
+			attachment="('SESSION'+(object.name or '').replace('/','')+'.pdf')"
+            file="openacademy.report_session" 
+            name="openacademy.report_session_document1"
+            groups="openacademy.group_manager"
+        />
+        
+        
+        
+		
+	</data>
+</openerp>
