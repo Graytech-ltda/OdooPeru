@@ -1,10 +1,10 @@
 {
 'name':"OpenAcademy",
-    'version' : '3.0',
-    'author' : 'Juan Sepulveda & William Genoy',
+    'version' : '1.0.1',
+    'author' : 'Juan Sepulveda - William Genoy - Yury Tello',
     'category' : 'Training',
     'description' : """
-        MANAGEMENT COURSE, SESSION AND ATTENDEE
+        Management of courses, session and attendees
     """,
     'website': 'https://www.odoo.com',
     'depends' : ['base','mail'],
@@ -18,6 +18,7 @@
              'wizard/enroll_view.xml',
              'report/report_session.xml',
              'report/report_session_excel.xml',
+             'openacademy_dashboard.xml',
     ],
     'qweb' : [
     ],
