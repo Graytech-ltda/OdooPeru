@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <record id="view_document_tree" model="ir.ui.view">
+            <field name="name">archives.document.tree</field>
+            <field name="model">archives.document</field>
+            <field name="arch" type="xml">
+                <tree string="Document List">
+                	<field name="retention_table_id"/>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="collection_id"/>
+                    <field name="responsible_id"/>
+                    <field name="parent_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_document_form" model="ir.ui.view">
+            <field name="name">archives.document.form</field>
+            <field name="model">archives.document</field>
+            <field name="arch" type="xml">
+                <form string="Archives Document">
+                    <header>
+                        <button name="action_done" states="pending" string="Done" class="oe_highlight"/>
+                        <button name="action_cancel" states="pending" string="Cancel"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label string="Document " attrs="{'invisible':[('name','=','/')]}"/>
+                                <field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="retention_table_id"/>
+                                <field name="process_step_id"/>
+                                <field name="date_start"/>
+                            </group>
+                            <group>
+                                <field name="collection_id"/>
+                                <field name="responsible_id"/>
+                                <field name="parent_id"/>
+                            </group>
+                        </group>
+                        <group>
+                        	<field name="subject"/>
+                        </group>
+                        <notebook>
+                            <page string="Moves">
+                                <field name="move_ids">
+                                	<tree editable="top">
+                                		<field name="type"/>
+                                		<field name="date_start"/>
+                                		<field name="source_user_id"/>
+                                		<field name="dest_user_id"/>
+                                		<field name="state"/>
+                                	</tree>
+                                </field>
+                            </page>
+                            <page string="Versions">
+                                <field name="version_ids">
+                                	<tree>
+                                		<field name="name"/>
+                                		<field name="date"/>
+                                		<field name="attachment_ids"/>
+                                	</tree>
+                                	<form>
+                                		<group>
+                                			<group>
+                                				<field name="name"/>
+                                			</group>
+                                			<group>
+                                				<field name="date"/>
+                                			</group>
+                                		</group>
+                                		<separator string="Attachment"/>
+                                		<field name="attachment_ids"/>
+                                	</form>
+                                	
+                                </field>
+                            </page>
+	                        <page string="Other Info">
+	                            <group col="4">
+	                                <group name="one">
+	                                	<field name="partner_id"/>
+	                                	<field name="folios"/>
+	                                	<field name="adjunct"/>
+	                                </group>
+	                                <group name="two">
+	                                	<field name="date_compute"/>
+	                                	<field name="date_end"/>
+	                                	<field name="propagate"/>
+	                                	<field name="company_id" groups="base.group_multi_company"/>
+	                                </group>
+	                            </group>
+	                        </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+	    </record>
+
+		<record id="view_document_filter" model="ir.ui.view">
+            <field name="name">archives.document.filter</field>
+            <field name="model">archives.document</field>
+            <field name="arch" type="xml">
+                <search string="Archives">
+                    <field name="name" string="Transfer" filter_domain="[('name','ilike',self)]"/>
+                    <filter name="pending" string="Pending" domain="[('state','=','pending')]"/>
+                    <filter name="done" string="Done" domain="[('state','=','done')]"/>
+                    <filter name="cancel" string="Cancel" domain="[('state','=','cancel')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                    	<filter string="Retention Table" icon="terp-folder-orange" domain="[]" context="{'group_by':'retention_table_id'}"/>
+                        <filter string="Responsible" icon="terp-folder-orange" domain="[]" context="{'group_by':'responsible_id'}"/>
+                        <filter string="Collection" icon="terp-folder-orange" domain="[]" context="{'group_by':'collection_id'}"/>
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="Date Start" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+	    <record model="ir.actions.act_window" id="document_action">
+		    <field name="name">Documents</field>
+		    <field name="res_model">archives.document</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree,form</field>
+	    </record>
+		
+		<menuitem name='Archives' id='archives_menu' parent='knowledge.menu_document' sequence='10'/>
+	    <menuitem name='Documents' id='document_menu' parent='archives_menu' action="document_action"/>
+	    
+	</data>
+</openerp>
